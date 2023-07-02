@@ -154,6 +154,36 @@
 
   # Home Manager
   home-manager.users.marco = {
+    programs.git = {
+      enable = true;
+
+      userName = "Marco Antônio";
+      userEmail = "marcodsl@tuta.io";
+
+      aliases = {
+        unstage = "reset HEAD --";
+        uncommit = "reset --soft HEAD~";
+      };
+
+      extraConfig = {
+        core = {
+          eol = "lf";
+        };
+
+        init = {
+          defaultBranch = "main";
+        };
+
+        pull = {
+          rebase = "true";
+        };
+
+        push = {
+          default = "current";
+        };
+      };
+    };
+
     home.stateVersion = "23.05";
   };
 
