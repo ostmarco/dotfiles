@@ -20,8 +20,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   # Bootloader
   boot = {
     tmp.cleanOnBoot = true;
