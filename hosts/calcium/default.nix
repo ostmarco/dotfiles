@@ -104,22 +104,6 @@
     desktopManager.gnome.enable = true;
   };
 
-  # User Account
-  users.users.marco = {
-    description = "Marco Antônio";
-
-    packages = with pkgs; [
-      alacritty
-      discord
-      firefox
-      spotify
-      vscode
-    ];
-
-    isNormalUser = true;
-    extraGroups = ["networkmanager" "wheel"];
-  };
-
   # Packages
   environment.systemPackages = with pkgs; [
     # General
@@ -151,6 +135,27 @@
     unzip
     zip
   ];
+
+  # User Account
+  users.users.marco = {
+    description = "Marco Antônio";
+
+    packages = with pkgs; [
+      alacritty
+      discord
+      firefox
+      spotify
+      vscode
+    ];
+
+    isNormalUser = true;
+    extraGroups = ["networkmanager" "wheel"];
+  };
+
+  # Home Manager
+  home-manager.users.marco = {
+    home.stateVersion = "23.05";
+  };
 
   # Programs
   programs = {

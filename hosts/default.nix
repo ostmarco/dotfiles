@@ -28,6 +28,8 @@ in {
       specialArgs = {inherit pkgs lib inputs system;};
 
       modules = [
+        inputs.home-manager.nixosModule
+
         ./calcium
       ];
     };
