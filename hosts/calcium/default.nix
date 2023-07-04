@@ -244,6 +244,13 @@
       };
     };
 
+    home.file.".XCompose".text = ''
+      include "/%L"
+
+      <dead_acute> <c> : "ç"
+      <dead_acute> <C> : "Ç"
+    '';
+
     home.stateVersion = "23.05";
   };
 
