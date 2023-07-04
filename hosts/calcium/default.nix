@@ -86,9 +86,33 @@
     enable = true;
     layout = "us";
     xkbVariant = "alt-intl";
+  };
+
+  # Gnome
+  services.xserver = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+
+  environment.gnome.excludePackages =
+    (with pkgs; [gnome-photos gnome-tour])
+    ++ (with pkgs.gnome; [
+      atomix
+      cheese
+      epiphany
+      geary
+      gedit
+      gnome-characters
+      gnome-contacts
+      gnome-initial-setup
+      gnome-music
+      hitori
+      iagno
+      tali
+      yelp
+    ]);
+
+  programs.dconf.enable = true;
 
   # Packages
   environment.systemPackages = with pkgs; [
@@ -120,6 +144,9 @@
     unrar
     unzip
     zip
+
+    # Gnome
+    gnome.gnome-tweaks
   ];
 
   # User Account
@@ -143,6 +170,75 @@
   home-manager.useGlobalPkgs = true;
 
   home-manager.users.marco = {
+    gtk = {
+      enable = true;
+
+      iconTheme = {
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
+      };
+
+      theme = {
+        name = "palenight";
+        package = pkgs.palenight-theme;
+      };
+
+      cursorTheme = {
+        name = "macOS-Monterey";
+        package = pkgs.apple-cursor;
+      };
+
+      gtk3.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+
+      gtk4.extraConfig = {
+        Settings = ''
+          gtk-application-prefer-dark-theme=1
+        '';
+      };
+    };
+
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        enable-hot-corners = true;
+      };
+
+      "org/gnome/desktop/background" = {
+        picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-l.webp";
+        picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/fold-d.webp";
+        primary-color = "#26A269";
+      };
+
+      "org/gnome/desktop/interface" = {
+        font-antialiasing = "rgba";
+      };
+
+      "org/gnome/desktop/screensaver/picture-uri" = {
+        picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/fold-l.webp";
+        primary-color = "#26A269";
+      };
+
+      "org/gnome/desktop/wm/preferences" = {
+        action-double-click-titlebar = "toggle-maximize";
+        button-layout = "appmenu:minimize,maximize,close";
+      };
+
+      "org/gnome/mutter" = {
+        edge-tiling = true;
+        dynamic-workspaces = true;
+        center-new-windows = true;
+      };
+
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "nothing";
+        power-button-action = "interactive";
+      };
+    };
+
     programs = {
       alacritty = {
         enable = true;
@@ -298,6 +394,8 @@
       <dead_acute> <c> : "ç"
       <dead_acute> <C> : "Ç"
     '';
+
+    home.sessionVariables.GTK_THEME = "palenight";
 
     home.stateVersion = "23.05";
   };
