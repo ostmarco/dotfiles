@@ -187,7 +187,7 @@
 
         userSettings = {
           # Code
-          "workbench.colorTheme" = "GitHub Dark";
+          "workbench.colorTheme" = "Afterglow Remastered";
           "workbench.tree.indent" = 20;
           "workbench.editor.highlightModifiedTabs" = true;
 
@@ -220,6 +220,8 @@
           };
 
           # Nix Language Server
+          "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
+
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nil";
           "nix.serverSettings" = {
@@ -233,14 +235,23 @@
           };
         };
 
-        extensions = with pkgs.vscode-extensions; [
-          eamodio.gitlens
-          esbenp.prettier-vscode
-          github.copilot
-          github.github-vscode-theme
-          jnoortheen.nix-ide
-          usernamehw.errorlens
-        ];
+        extensions =
+          (with pkgs.vscode-extensions; [
+            eamodio.gitlens
+            esbenp.prettier-vscode
+            github.copilot
+            github.github-vscode-theme
+            jnoortheen.nix-ide
+            usernamehw.errorlens
+          ])
+          ++ (with pkgs.vscode-utils; [
+            (extensionFromVscodeMarketplace {
+              name = "theme-afterglow-remastered";
+              publisher = "marvinhagemeister";
+              version = "1.1.3";
+              sha256 = "sha256-LRua4gawRs3BUox1Qx40fCNLRcluxf4mIo5TYaWSzQQ=";
+            })
+          ]);
       };
     };
 
