@@ -188,6 +188,14 @@
           };
         };
       };
+      neovim = {
+        enable = true;
+
+        viAlias = true;
+        vimAlias = true;
+
+        defaultEditor = true;
+      };
       vscode = {
         enable = true;
 
@@ -251,17 +259,6 @@
     };
 
     home.stateVersion = "23.05";
-  };
-
-  # Programs
-  programs = {
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-
-      viAlias = true;
-      vimAlias = true;
-    };
   };
 
   # Fonts
