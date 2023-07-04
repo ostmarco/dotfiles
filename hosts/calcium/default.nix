@@ -127,7 +127,6 @@
     description = "Marco Antônio";
 
     packages = with pkgs; [
-      alacritty
       alejandra
       discord
       firefox
@@ -145,6 +144,43 @@
 
   home-manager.users.marco = {
     programs = {
+      alacritty = {
+        enable = true;
+
+        settings = {
+          window = {
+            title = "Alacritty";
+            dynamicTitle = true;
+
+            opacity = 1.0;
+
+            startupMode = "Windowed";
+          };
+          font = {
+            normal = {
+              family = "FiraCode Nerd Font";
+              style = "Regular";
+            };
+
+            bold = {
+              family = "FiraCode Nerd Font";
+              style = "Bold";
+            };
+
+            italic = {
+              family = "FiraCode Nerd Font";
+              style = "Italic";
+            };
+
+            boldItalic = {
+              family = "FiraCode Nerd Font";
+              style = "Bold Italic";
+            };
+
+            size = 11.0;
+          };
+        };
+      };
       git = {
         enable = true;
 
@@ -196,6 +232,7 @@
           "editor.fontSize" = 13;
           "editor.tabSize" = 4;
           "editor.renderWhitespace" = "trailing";
+          "editor.formatOnSave" = true;
 
           "terminal.integrated.fontSize" = 13;
 
