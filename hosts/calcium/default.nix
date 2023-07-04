@@ -142,10 +142,11 @@
 
     packages = with pkgs; [
       alacritty
+      alejandra
       discord
       firefox
+      nil
       spotify
-      vscode
     ];
 
     isNormalUser = true;
@@ -153,34 +154,99 @@
   };
 
   # Home Manager
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+
   home-manager.users.marco = {
-    programs.git = {
-      enable = true;
+    programs = {
+      git = {
+        enable = true;
 
-      userName = "Marco Antônio";
-      userEmail = "marcodsl@tuta.io";
+        userName = "Marco Antônio";
+        userEmail = "marcodsl@tuta.io";
 
-      aliases = {
-        unstage = "reset HEAD --";
-        uncommit = "reset --soft HEAD~";
+        aliases = {
+          unstage = "reset HEAD --";
+          uncommit = "reset --soft HEAD~";
+        };
+
+        extraConfig = {
+          core = {
+            eol = "lf";
+          };
+
+          init = {
+            defaultBranch = "main";
+          };
+
+          pull = {
+            rebase = "true";
+          };
+
+          push = {
+            default = "current";
+          };
+        };
       };
+      vscode = {
+        enable = true;
 
-      extraConfig = {
-        core = {
-          eol = "lf";
+        userSettings = {
+          # Code
+          "workbench.colorTheme" = "GitHub Dark";
+          "workbench.tree.indent" = 20;
+          "workbench.editor.highlightModifiedTabs" = true;
+
+          "editor.minimap.enabled" = false;
+          "editor.rulers" = [80 120];
+          "editor.fontSize" = 13;
+          "editor.tabSize" = 4;
+          "editor.renderWhitespace" = "trailing";
+
+          "terminal.integrated.fontSize" = 13;
+
+          "files.autoSave" = "afterDelay";
+          "files.autoSaveDelay" = 1000;
+
+          "editor.lineNumbers" = "relative";
+
+          "errorLens.messageMaxChars" = 80;
+          "errorLens.onSaveTimeout" = 2000;
+
+          "files.eol" = "\n";
+
+          "files.exclude" = {
+            "**/.git" = true;
+            "**/.svn" = true;
+            "**/.hg" = true;
+            "**/CVS" = true;
+            "**/.DS_Store" = true;
+            "**/Thumbs.db" = true;
+            "**/node_modules" = true;
+          };
+
+          # Nix Language Server
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nil";
+          "nix.serverSettings" = {
+            "nil" = {
+              "formatting" = {
+                "command" = [
+                  "alejandra"
+                ];
+              };
+            };
+          };
         };
 
-        init = {
-          defaultBranch = "main";
-        };
-
-        pull = {
-          rebase = "true";
-        };
-
-        push = {
-          default = "current";
-        };
+        extensions = with pkgs.vscode-extensions; [
+          eamodio.gitlens
+          esbenp.prettier-vscode
+          github.copilot
+          github.github-vscode-theme
+          jnoortheen.nix-ide
+          usernamehw.errorlens
+        ];
       };
     };
 
