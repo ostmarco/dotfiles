@@ -158,6 +158,11 @@
       discord
       firefox
       nil
+
+      nodejs
+      nodePackages.npm
+      nodePackages.yarn
+
       spotify
     ];
 
@@ -325,6 +330,7 @@
 
           "editor.minimap.enabled" = false;
           "editor.rulers" = [80 120];
+          "editor.fontFamily" = "FiraCode Nerd Font";
           "editor.fontSize" = 13;
           "editor.tabSize" = 4;
           "editor.renderWhitespace" = "trailing";
@@ -370,6 +376,7 @@
 
         extensions =
           (with pkgs.vscode-extensions; [
+            dbaeumer.vscode-eslint
             eamodio.gitlens
             esbenp.prettier-vscode
             github.copilot
