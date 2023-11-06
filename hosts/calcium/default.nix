@@ -155,9 +155,11 @@
 
     packages = with pkgs; [
       alejandra
+      brave
       discord
-      firefox
       nil
+
+      libreoffice-qt
 
       nodejs
       nodePackages.npm
@@ -330,10 +332,14 @@
 
           "editor.minimap.enabled" = false;
           "editor.rulers" = [80 120];
+
           "editor.fontFamily" = "FiraCode Nerd Font";
           "editor.fontSize" = 13;
           "editor.tabSize" = 4;
+
           "editor.renderWhitespace" = "trailing";
+
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
           "editor.formatOnSave" = true;
 
           "terminal.integrated.fontSize" = 13;
@@ -378,6 +384,7 @@
           (with pkgs.vscode-extensions; [
             dbaeumer.vscode-eslint
             eamodio.gitlens
+            editorconfig.editorconfig
             esbenp.prettier-vscode
             github.copilot
             github.github-vscode-theme
