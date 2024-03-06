@@ -1,0 +1,280 @@
+{
+  pkgs,
+  inputs,
+  system,
+  ...
+}: let
+  vscode-extensions = inputs.nix-vscode-extensions.extensions.${system};
+in {
+  imports = [
+    ./hardware
+  ];
+
+  # Programs
+  programs.command-not-found.enable = true;
+
+  # Packages
+  environment.systemPackages = with pkgs; [
+    #
+    bind
+    bintools
+    coreutils
+    curl
+    file
+    git
+    git-crypt
+    killall
+    parted
+    ripgrep
+    wget
+
+    bat
+    bottom
+    btop
+    eza
+    fzf
+    mpv
+    nitch
+    tldr
+
+    p7zip
+    unrar
+    unzip
+    zip
+
+    libnotify
+
+    zx
+
+    glib
+  ];
+
+  # Services
+  services.redis.servers = {
+    "redis" = {
+      enable = false;
+      port = 6379;
+    };
+  };
+
+  services.mysql = {
+    enable = false;
+    package = pkgs.mariadb;
+  };
+
+  services.gnome.gnome-keyring.enable = true;
+
+  modules.programs = {
+    fish.enable = true;
+    git.enable = true;
+    kitty.enable = true;
+    starship.enable = false;
+
+    helix = {
+      enable = true;
+      defaultEditor = true;
+
+      viAlias = true;
+      vimAlias = true;
+      nvimAlias = true;
+    };
+  };
+
+  modules.services = {
+    docker.enable = true;
+  };
+
+  # User Account
+  user = {
+    name = "marco";
+    description = "Marco Antônio";
+
+    groups = ["adbusers" "docker" "networking" "video" "wheel"];
+
+    shellAliases = {
+      ls = "exa";
+      cat = "bat";
+    };
+
+    packages = with pkgs; let
+      gcloud = google-cloud-sdk.withExtraComponents (with google-cloud-sdk.components; [
+        gke-gcloud-auth-plugin
+        kubectl
+      ]);
+    in [
+      alejandra
+      brave
+      drawio
+      flameshot
+      gcloud
+      gtk-engine-murrine
+      jetbrains.datagrip
+      jetbrains.webstorm
+      minikube
+      nicotine-plus
+      nil
+      obsidian
+      onlyoffice-bin
+      postman
+      signal-desktop
+      spotify
+      stremio
+      terraform
+      tor-browser-bundle-bin
+      vesktop
+    ];
+
+    home.programs = {
+      google-chrome.enable = true;
+
+      vscode = {
+        enable = true;
+
+        userSettings = {
+          "workbench.colorTheme" = "Catppuccin Macchiato";
+          "workbench.iconTheme" = "Catppuccin Macchiato";
+          "workbench.tree.indent" = 12;
+          "workbench.editor.highlightModifiedTabs" = true;
+
+          "symbols.hidesExplorerArrows" = false;
+
+          "editor.minimap.enabled" = false;
+          "editor.rulers" = [80 120];
+
+          "workbench.startupEditor" = "newUntitledFile";
+          "workbench.editor.labelFormat" = "short";
+
+          "explorer.compactFolders" = false;
+
+          "editor.fontFamily" = "Iosevka NF";
+          "editor.fontSize" = 13;
+          "editor.fontLigatures" = true;
+
+          "editor.lineHeight" = 1.8;
+          "editor.lineNumbers" = "relative";
+
+          "editor.tabSize" = 4;
+
+          "editor.renderWhitespace" = "trailing";
+          "editor.renderLineHighlight" = "gutter";
+
+          "editor.semanticHighlighting.enabled" = false;
+
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
+          "editor.formatOnSave" = true;
+
+          "terminal.integrated.fontFamily" = "Iosevka NF";
+          "terminal.integrated.fontSize" = 13;
+          "terminal.integrated.defaultProfile.linux" = "fish";
+
+          "files.autoSave" = "afterDelay";
+          "files.autoSaveDelay" = 1000;
+
+          "editor.inlineSuggest.enabled" = true;
+
+          "errorLens.messageMaxChars" = 80;
+          "errorLens.onSaveTimeout" = 2000;
+
+          "files.eol" = "\n";
+
+          "files.exclude" = {
+            "**/.git" = true;
+            "**/.svn" = true;
+            "**/.hg" = true;
+            "**/CVS" = true;
+            "**/.DS_Store" = true;
+            "**/Thumbs.db" = true;
+            "**/node_modules" = true;
+          };
+
+          # Nix Language Server
+          "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
+
+          "nix.enableLanguageServer" = true;
+          "nix.serverPath" = "nil";
+          "nix.serverSettings" = {
+            "nil" = {
+              "formatting" = {
+                "command" = [
+                  "alejandra"
+                ];
+              };
+            };
+          };
+
+          # Rust
+          "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+        };
+
+        mutableExtensionsDir = false;
+
+        extensions = (
+          with vscode-extensions.vscode-marketplace; [
+            arrterian.nix-env-selector
+            catppuccin.catppuccin-vsc
+            catppuccin.catppuccin-vsc-icons
+            dbaeumer.vscode-eslint
+            eamodio.gitlens
+            editorconfig.editorconfig
+            esbenp.prettier-vscode
+            github.copilot
+            hashicorp.terraform
+            jnoortheen.nix-ide
+            miguelsolorio.min-theme
+            miguelsolorio.symbols
+            ms-azuretools.vscode-docker
+            ms-vscode.live-server
+            rust-lang.rust-analyzer
+            shwuy.zhxo-themes
+            tamasfe.even-better-toml
+            usernamehw.errorlens
+            vue.volar
+            vue.vscode-typescript-vue-plugin
+          ]
+        );
+      };
+    };
+
+    sessionVariables = {
+      GTK_THEME = "Catppuccin-Macchiato-Compact-Blue-Dark";
+    };
+
+    home.extraConfig = {
+      gtk = {
+        enable = true;
+
+        font = {
+          name = "SF Compact";
+          size = 10;
+        };
+
+        theme = {
+          name = "Catppuccin-Macchiato-Compact-Blue-Dark";
+          package = pkgs.catppuccin-gtk.override {
+            size = "compact";
+            tweaks = ["rimless"];
+            variant = "macchiato";
+          };
+        };
+
+        iconTheme = {
+          name = "Papirus-Dark";
+          package = pkgs.catppuccin-papirus-folders;
+        };
+
+        cursorTheme = {
+          name = "Catppuccin-Macchiato-Dark-Cursors";
+          package = pkgs.catppuccin-cursors.macchiatoDark;
+        };
+
+        gtk3.extraConfig = {
+          gtk-application-prefer-dark-theme = true;
+        };
+
+        gtk4.extraConfig = {
+          gtk-application-prefer-dark-theme = true;
+        };
+      };
+    };
+  };
+}
