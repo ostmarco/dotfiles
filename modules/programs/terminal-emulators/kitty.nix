@@ -25,7 +25,7 @@ in {
 
       # TODO: use theming
       font = {
-        name = "Iosevka NF";
+        name = "Zed Mono";
         size = 10.0;
       };
 

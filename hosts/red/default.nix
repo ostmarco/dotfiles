@@ -6,9 +6,7 @@
 }: let
   vscode-extensions = inputs.nix-vscode-extensions.extensions.${system};
 in {
-  imports = [
-    ./hardware
-  ];
+  imports = [./hardware.nix];
 
   # Programs
   programs.command-not-found.enable = true;
@@ -47,6 +45,8 @@ in {
     zx
 
     glib
+
+    shfmt
   ];
 
   # Services
@@ -68,7 +68,6 @@ in {
     fish.enable = true;
     git.enable = true;
     kitty.enable = true;
-    starship.enable = false;
 
     helix = {
       enable = true;
@@ -103,10 +102,11 @@ in {
       ]);
     in [
       alejandra
-      brave
-      drawio
       flameshot
       gcloud
+      gh
+      gimp
+      gparted
       gtk-engine-murrine
       jetbrains.datagrip
       jetbrains.webstorm
@@ -121,7 +121,12 @@ in {
       stremio
       terraform
       tor-browser-bundle-bin
+      ventoy-full
       vesktop
+
+      subfinder
+      nuclei
+      httprobe
     ];
 
     home.programs = {
@@ -146,7 +151,7 @@ in {
 
           "explorer.compactFolders" = false;
 
-          "editor.fontFamily" = "Iosevka NF";
+          "editor.fontFamily" = "Zed Mono";
           "editor.fontSize" = 13;
           "editor.fontLigatures" = true;
 
@@ -163,7 +168,7 @@ in {
           "editor.defaultFormatter" = "esbenp.prettier-vscode";
           "editor.formatOnSave" = true;
 
-          "terminal.integrated.fontFamily" = "Iosevka NF";
+          "terminal.integrated.fontFamily" = "Zed Mono";
           "terminal.integrated.fontSize" = 13;
           "terminal.integrated.defaultProfile.linux" = "fish";
 
@@ -204,6 +209,15 @@ in {
 
           # Rust
           "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+
+          # Shell + Dockerfile + ignore
+          "[shellscript]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+          "[dockerfile]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+          "[ignore]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+          "shellformat.path" = "${pkgs.shfmt}/bin/shfmt";
+
+          # Terraform
+          "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
         };
 
         mutableExtensionsDir = false;
@@ -217,19 +231,18 @@ in {
             eamodio.gitlens
             editorconfig.editorconfig
             esbenp.prettier-vscode
+            foxundermoon.shell-format
             github.copilot
             hashicorp.terraform
             jnoortheen.nix-ide
-            miguelsolorio.min-theme
-            miguelsolorio.symbols
             ms-azuretools.vscode-docker
             ms-vscode.live-server
             rust-lang.rust-analyzer
-            shwuy.zhxo-themes
             tamasfe.even-better-toml
+            timonwong.shellcheck
+            tomoki1207.pdf
             usernamehw.errorlens
             vue.volar
-            vue.vscode-typescript-vue-plugin
           ]
         );
       };
@@ -244,7 +257,7 @@ in {
         enable = true;
 
         font = {
-          name = "SF Compact";
+          name = "Zed Sans";
           size = 10;
         };
 

@@ -36,7 +36,6 @@
 
       overlays = [
         (import ./overlays/electron.nix)
-        (import ./overlays/discord.nix)
         (import ./overlays/postman.nix)
       ];
 

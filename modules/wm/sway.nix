@@ -84,7 +84,7 @@ in {
     programs.rofi = {
       enable = true;
       terminal = terminal;
-      font = "Iosevka NF 14";
+      font = "Zed Sans 14";
       theme = let
         inherit (config.home-manager.users.${config.user.name}.lib.formats.rasi) mkLiteral;
       in {
@@ -222,7 +222,7 @@ in {
         ignore-empty-password = true;
 
         font-size = 24;
-        font = "Iosevka NF";
+        font = "Zed Sans";
 
         indicator-radius = 100;
         indicator-idle-visible = true;
@@ -383,7 +383,7 @@ in {
         ];
 
         input = {
-          "type:keyboard" = {
+          "1:1:AT_Translated_Set_2_keyboard" = {
             "xkb_layout" = "br";
             "xkb_variant" = "abnt2";
           };
