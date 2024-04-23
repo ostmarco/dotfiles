@@ -1,4 +1,4 @@
-{
+{...}: {
   sound.enable = false;
 
   services.pipewire = {

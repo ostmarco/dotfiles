@@ -52,7 +52,7 @@ in {
   # Services
   services.redis.servers = {
     "redis" = {
-      enable = false;
+      enable = true;
       port = 6379;
     };
   };
@@ -63,6 +63,8 @@ in {
   };
 
   services.gnome.gnome-keyring.enable = true;
+
+  programs.adb.enable = true;
 
   modules.programs = {
     fish.enable = true;
@@ -102,14 +104,16 @@ in {
       ]);
     in [
       alejandra
+      d2
+      dotnet-sdk_8
       flameshot
       gcloud
       gh
-      gimp
-      gparted
       gtk-engine-murrine
       jetbrains.datagrip
+      jetbrains.rider
       jetbrains.webstorm
+      logseq
       minikube
       nicotine-plus
       nil
@@ -123,10 +127,6 @@ in {
       tor-browser-bundle-bin
       ventoy-full
       vesktop
-
-      subfinder
-      nuclei
-      httprobe
     ];
 
     home.programs = {
@@ -136,10 +136,12 @@ in {
         enable = true;
 
         userSettings = {
-          "workbench.colorTheme" = "Catppuccin Macchiato";
-          "workbench.iconTheme" = "Catppuccin Macchiato";
+          "workbench.colorTheme" = "Catppuccin Mocha";
+          "workbench.iconTheme" = "Catppuccin Mocha";
           "workbench.tree.indent" = 12;
           "workbench.editor.highlightModifiedTabs" = true;
+
+          "window.zoomLevel" = 1;
 
           "symbols.hidesExplorerArrows" = false;
 
@@ -152,7 +154,7 @@ in {
           "explorer.compactFolders" = false;
 
           "editor.fontFamily" = "Zed Mono";
-          "editor.fontSize" = 13;
+          "editor.fontSize" = 14;
           "editor.fontLigatures" = true;
 
           "editor.lineHeight" = 1.8;
@@ -233,12 +235,17 @@ in {
             esbenp.prettier-vscode
             foxundermoon.shell-format
             github.copilot
+            github.copilot-chat
+            github.vscode-pull-request-github
+            github.vscode-github-actions
             hashicorp.terraform
             jnoortheen.nix-ide
             ms-azuretools.vscode-docker
             ms-vscode.live-server
+            ms-vsliveshare.vsliveshare
             rust-lang.rust-analyzer
             tamasfe.even-better-toml
+            terrastruct.d2
             timonwong.shellcheck
             tomoki1207.pdf
             usernamehw.errorlens
@@ -249,7 +256,7 @@ in {
     };
 
     sessionVariables = {
-      GTK_THEME = "Catppuccin-Macchiato-Compact-Blue-Dark";
+      GTK_THEME = "Catppuccin-Mocha-Compact-Lavender-Dark";
     };
 
     home.extraConfig = {
@@ -262,11 +269,12 @@ in {
         };
 
         theme = {
-          name = "Catppuccin-Macchiato-Compact-Blue-Dark";
+          name = "Catppuccin-Mocha-Compact-Lavender-Dark";
           package = pkgs.catppuccin-gtk.override {
+            accents = ["lavender"];
             size = "compact";
             tweaks = ["rimless"];
-            variant = "macchiato";
+            variant = "mocha";
           };
         };
 
@@ -276,8 +284,8 @@ in {
         };
 
         cursorTheme = {
-          name = "Catppuccin-Macchiato-Dark-Cursors";
-          package = pkgs.catppuccin-cursors.macchiatoDark;
+          name = "Catppuccin-Mocha-Dark-Cursors";
+          package = pkgs.catppuccin-cursors.mochaDark;
         };
 
         gtk3.extraConfig = {

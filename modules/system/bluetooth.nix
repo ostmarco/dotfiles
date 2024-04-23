@@ -1,10 +1,16 @@
 {pkgs, ...}: {
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.settings.General = {
-    AutoConnect = "true";
-    Enable = "Source,Sink,Media,Socket";
-    FastConnectable = "true";
-    MultiProfile = "multiple";
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+
+    settings = {
+      General = {
+        AutoConnect = "true";
+        Enable = "Source,Sink,Media,Socket";
+        FastConnectable = "true";
+        MultiProfile = "multiple";
+      };
+    };
   };
 
   services.blueman.enable = true;

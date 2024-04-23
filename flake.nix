@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/master";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -35,8 +36,8 @@
       inherit (lib.extra) mapModulesRec';
 
       overlays = [
-        (import ./overlays/electron.nix)
-        (import ./overlays/postman.nix)
+        (import overlays/electron.nix)
+        (import overlays/postman.nix)
       ];
 
       lib = pkgs.lib.extend (self: super: {
@@ -83,8 +84,6 @@
         };
     in {
       nixosConfigurations = {
-        calcium = mkHost ./hosts/calcium;
-        phosphorus = mkHost ./hosts/phosphorus;
         red = mkHost ./hosts/red;
       };
     });

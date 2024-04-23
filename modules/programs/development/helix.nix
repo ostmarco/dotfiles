@@ -27,7 +27,7 @@ in {
       inherit (cfg) enable defaultEditor;
 
       settings = {
-        theme = "catppuccin-mocchiato";
+        theme = "catppuccin-mocha";
         editor = {
           line-number = "relative";
           lsp.display-messages = true;
@@ -41,7 +41,7 @@ in {
       };
 
       themes = {
-        catppuccin-mocchiato = builtins.fromTOML (builtins.readFile
+        catppuccin-mocha = builtins.fromTOML (builtins.readFile
           (pkgs.fetchFromGitHub
             {
               owner = "catppuccin";
@@ -49,7 +49,7 @@ in {
               rev = "31a29bd9848e239b94fa8151eba4bdc6007d8c69";
               sha256 = "sha256-qEXhj/Mpm+aqThqEq5DlPJD8nsbPov9CNMgG9s4E02g=";
             }
-            + /themes/default/catppuccin_macchiato.toml));
+            + /themes/default/catppuccin_mocha.toml));
       };
     };
 

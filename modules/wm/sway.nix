@@ -70,11 +70,12 @@ in {
 
   environment.systemPackages = with pkgs; [
     dbus-sway-environment
-
     grim
     pcmanfm
-    slurp
     shotman
+    slurp
+    swaybg
+    swaylock-effects
     wdisplays
     wl-clipboard
     wlr-randr
@@ -218,45 +219,48 @@ in {
 
     programs.swaylock = {
       enable = true;
+      package = pkgs.swaylock-effects;
       settings = {
         ignore-empty-password = true;
 
         font-size = 24;
         font = "Zed Sans";
 
+        clock = true;
+
         indicator-radius = 100;
         indicator-idle-visible = true;
         show-failed-attempts = true;
 
-        bs-hl-color = "f4dbd6";
-        caps-lock-bs-hl-color = "f4dbd6";
-        caps-lock-key-hl-color = "a6da95";
-        color = "24273a";
-        inside-caps-lock-color = "00000000";
-        inside-clear-color = "00000000";
+        color = "1e1e2e";
+        bs-hl-color = "f5e0dc";
+        caps-lock-bs-hl-color = "f5e0dc";
+        caps-lock-key-hl-color = "a6e3a1";
         inside-color = "00000000";
+        inside-clear-color = "00000000";
+        inside-caps-lock-color = "00000000";
         inside-ver-color = "00000000";
         inside-wrong-color = "00000000";
-        key-hl-color = "a6da95";
+        key-hl-color = "a6e3a1";
         layout-bg-color = "00000000";
         layout-border-color = "00000000";
-        layout-text-color = "cad3f5";
-        line-caps-lock-color = "00000000";
-        line-clear-color = "00000000";
+        layout-text-color = "cdd6f4";
         line-color = "00000000";
+        line-clear-color = "00000000";
+        line-caps-lock-color = "00000000";
         line-ver-color = "00000000";
         line-wrong-color = "00000000";
-        ring-caps-lock-color = "f5a97f";
-        ring-clear-color = "f4dbd6";
-        ring-color = "b7bdf8";
-        ring-ver-color = "8aadf4";
-        ring-wrong-color = "ee99a0";
+        ring-color = "b4befe";
+        ring-clear-color = "f5e0dc";
+        ring-caps-lock-color = "fab387";
+        ring-ver-color = "b4befe";
+        ring-wrong-color = "eba0ac";
         separator-color = "00000000";
-        text-caps-lock-color = "f5a97f";
-        text-clear-color = "f4dbd6";
-        text-color = "cad3f5";
-        text-ver-color = "8aadf4";
-        text-wrong-color = "ee99a0";
+        text-color = "cdd6f4";
+        text-clear-color = "f5e0dc";
+        text-caps-lock-color = "fab387";
+        text-ver-color = "b4befe";
+        text-wrong-color = "eba0ac";
       };
     };
 
@@ -304,46 +308,44 @@ in {
       defaultTimeout = 10000;
 
       extraConfig = ''
-        # Colors
-
-        background-color=#24273a
-        text-color=#cad3f5
-        border-color=#8aadf4
-        progress-color=over #363a4f
+        background-color=#1e1e2e
+        text-color=#cdd6f4
+        border-color=#b4befe
+        progress-color=over #313244
 
         [urgency=high]
-        border-color=#f5a97f
+        border-color=#fab387
       '';
     };
 
     extraConfig.wayland.windowManager.sway = let
       theme = {
-        rosewater = "#f4dbd6";
-        flamingo = "#f0c6c6";
-        pink = "#f5bde6";
-        mauve = "#c6a0f6";
-        red = "#ed8796";
-        maroon = "#ee99a0";
-        peach = "#f5a97f";
-        yellow = "#eed49f";
-        green = "#a6da95";
-        teal = "#8bd5ca";
-        sky = "#91d7e3";
-        sapphire = "#7dc4e4";
-        blue = "#8aadf4";
-        lavender = "#b7bdf8";
-        text = "#cad3f5";
-        subtext1 = "#b8c0e0";
-        subtext0 = "#a5adcb";
-        overlay2 = "#939ab7";
-        overlay1 = "#8087a2";
-        overlay0 = "#6e738d";
-        surface2 = "#5b6078";
-        surface1 = "#494d64";
-        surface0 = "#363a4f";
-        base = "#24273a";
-        mantle = "#1e2030";
-        crust = "#181926";
+        rosewater = "#f5e0dc";
+        flamingo = "#f2cdcd";
+        pink = "#f5c2e7";
+        mauve = "#cba6f7";
+        red = "#f38ba8";
+        maroon = "#eba0ac";
+        peach = "#fab387";
+        yellow = "#f9e2af";
+        green = "#a6e3a1";
+        teal = "#94e2d5";
+        sky = "#89dceb";
+        sapphire = "#74c7ec";
+        blue = "#b4befe";
+        lavender = "#b4befe";
+        text = "#cdd6f4";
+        subtext1 = "#bac2de";
+        subtext0 = "#a6adc8";
+        overlay2 = "#9399b2";
+        overlay1 = "#7f849c";
+        overlay0 = "#6c7086";
+        surface2 = "#585b70";
+        surface1 = "#45475a";
+        surface0 = "#313244";
+        base = "#1e1e2e";
+        mantle = "#181825";
+        crust = "#11111b";
       };
     in {
       enable = true;
@@ -361,7 +363,11 @@ in {
           {command = "${importGsettings}";}
           {command = "bluetoothctl power on";}
           {command = "nohup flameshot &";}
+          {command = "wpaperd";}
         ];
+
+        gaps.inner = 15;
+        window.titlebar = false;
 
         bars = [
           {
@@ -372,7 +378,7 @@ in {
               background = theme.base;
               statusline = theme.text;
               focusedStatusline = theme.text;
-              focusedSeparator = theme.base;
+              focusedSeparator = theme.overlay0;
               focusedWorkspace = mkColorSet theme.base theme.base theme.green;
               activeWorkspace = mkColorSet theme.base theme.base theme.blue;
               inactiveWorkspace = mkColorSet theme.base theme.base theme.surface1;
@@ -401,7 +407,6 @@ in {
 
         floating.criteria = [
           {app_id = ".blueman-manager-wrapped";}
-          {app_id = "kitty";}
           {app_id = "pcmanfm";}
         ];
 
@@ -497,43 +502,13 @@ in {
         eval $(gnome-keyring-daemon --start --components=secrets);
       '';
 
-      extraConfigEarly = ''
-        # Theme
-        set $rosewater #f4dbd6
-        set $flamingo  #f0c6c6
-        set $pink      #f5bde6
-        set $mauve     #c6a0f6
-        set $red       #ed8796
-        set $maroon    #ee99a0
-        set $peach     #f5a97f
-        set $yellow    #eed49f
-        set $green     #a6da95
-        set $teal      #8bd5ca
-        set $sky       #91d7e3
-        set $sapphire  #7dc4e4
-        set $blue      #8aadf4
-        set $lavender  #b7bdf8
-        set $text      #cad3f5
-        set $subtext1  #b8c0e0
-        set $subtext0  #a5adcb
-        set $overlay2  #939ab7
-        set $overlay1  #8087a2
-        set $overlay0  #6e738d
-        set $surface2  #5b6078
-        set $surface1  #494d64
-        set $surface0  #363a4f
-        set $base      #24273a
-        set $mantle    #1e2030
-        set $crust     #181926
-      '';
-
       extraConfig = ''
-        client.focused           $lavender $base $text  $rosewater $lavender
-        client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
-        client.unfocused         $overlay0 $base $text  $rosewater $overlay0
-        client.urgent            $peach    $base $peach $overlay0  $peach
-        client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
-        client.background        $base
+        client.focused           ${theme.lavender} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.lavender}
+        client.focused_inactive  ${theme.overlay0} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.overlay0}
+        client.unfocused         ${theme.overlay0} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.overlay0}
+        client.urgent            ${theme.peach}    ${theme.base} ${theme.peach} ${theme.overlay0}  ${theme.peach}
+        client.placeholder       ${theme.overlay0} ${theme.base} ${theme.text}  ${theme.overlay0}  ${theme.overlay0}
+        client.background        ${theme.base}
 
         # Monitors
         set $PRIMARY "HDMI-A-1"
