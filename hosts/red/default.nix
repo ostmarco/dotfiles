@@ -141,7 +141,7 @@ in {
           "workbench.tree.indent" = 12;
           "workbench.editor.highlightModifiedTabs" = true;
 
-          "window.zoomLevel" = 1;
+          "window.zoomLevel" = 0;
 
           "symbols.hidesExplorerArrows" = false;
 
@@ -153,7 +153,7 @@ in {
 
           "explorer.compactFolders" = false;
 
-          "editor.fontFamily" = "Zed Mono";
+          "editor.fontFamily" = "Iosevka Comfy Motion";
           "editor.fontSize" = 14;
           "editor.fontLigatures" = true;
 
@@ -170,7 +170,7 @@ in {
           "editor.defaultFormatter" = "esbenp.prettier-vscode";
           "editor.formatOnSave" = true;
 
-          "terminal.integrated.fontFamily" = "Zed Mono";
+          "terminal.integrated.fontFamily" = "Iosevka Comfy Motion";
           "terminal.integrated.fontSize" = 13;
           "terminal.integrated.defaultProfile.linux" = "fish";
 
@@ -264,7 +264,7 @@ in {
         enable = true;
 
         font = {
-          name = "Zed Sans";
+          name = "Iosevka Comfy Motion";
           size = 10;
         };
 

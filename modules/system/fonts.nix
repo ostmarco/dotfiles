@@ -42,6 +42,9 @@
       source-han-sans-japanese
       source-han-serif-japanese
 
+      iosevka-comfy.comfy
+      iosevka-comfy.comfy-motion
+
       zed-mono
       zed-sans
     ];
@@ -49,9 +52,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        monospace = ["Zed Mono" "Noto Sans Mono"];
+        monospace = ["Iosevka Comfy Motion" "Noto Sans Mono"];
         serif = ["New York" "Noto Serif" "Source Han Serif"];
-        sansSerif = ["Zed Sans" "Noto Sans" "Source Han Sans"];
+        sansSerif = ["Iosevka Comfy Motion" "Noto Sans" "Source Han Sans"];
       };
     };
   };

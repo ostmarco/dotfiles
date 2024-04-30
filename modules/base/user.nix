@@ -63,7 +63,7 @@ in {
           programs = mkAliasDefinitions options.user.home.programs;
           services = mkAliasDefinitions options.user.home.services;
 
-          home.stateVersion = "23.11";
+          home.stateVersion = "24.05";
         };
     };
 

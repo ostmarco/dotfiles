@@ -6,7 +6,7 @@
         settings = {
           default = {
             duration = "2m";
-            path = /home/marco/.dotfiles/wallpapers;
+            path = "/home/marco/dotfiles/wallpapers";
             sorting = "ascending";
             apply-shadow = false;
           };

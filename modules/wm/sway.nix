@@ -85,7 +85,7 @@ in {
     programs.rofi = {
       enable = true;
       terminal = terminal;
-      font = "Zed Sans 14";
+      font = "Iosevka Comfy Motion 14";
       theme = let
         inherit (config.home-manager.users.${config.user.name}.lib.formats.rasi) mkLiteral;
       in {
@@ -224,7 +224,7 @@ in {
         ignore-empty-password = true;
 
         font-size = 24;
-        font = "Zed Sans";
+        font = "Iosevka Comfy Motion";
 
         clock = true;
 
