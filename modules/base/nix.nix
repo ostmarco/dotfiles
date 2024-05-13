@@ -11,7 +11,7 @@
 in {
   config = {
     nix = {
-      package = pkgs.nixUnstable;
+      package = pkgs.nixVersions.latest;
 
       settings = {
         substituters = cachesUrls;

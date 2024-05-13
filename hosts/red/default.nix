@@ -64,8 +64,6 @@ in {
 
   services.gnome.gnome-keyring.enable = true;
 
-  programs.adb.enable = true;
-
   modules.programs = {
     fish.enable = true;
     git.enable = true;
@@ -97,6 +95,10 @@ in {
       cat = "bat";
     };
 
+    sessionVariables = {
+      GTK_THEME = "Catppuccin-Mocha-Compact-Lavender-Dark";
+    };
+
     packages = with pkgs; let
       gcloud = google-cloud-sdk.withExtraComponents (with google-cloud-sdk.components; [
         gke-gcloud-auth-plugin
@@ -105,17 +107,12 @@ in {
     in [
       alejandra
       d2
-      dotnet-sdk_8
-      flameshot
+      devenv
       gcloud
       gh
-      gtk-engine-murrine
       jetbrains.datagrip
       jetbrains.rider
-      jetbrains.webstorm
-      logseq
       minikube
-      nicotine-plus
       nil
       obsidian
       onlyoffice-bin
@@ -123,110 +120,109 @@ in {
       signal-desktop
       spotify
       stremio
-      terraform
       tor-browser-bundle-bin
-      ventoy-full
       vesktop
     ];
 
-    home.programs = {
-      google-chrome.enable = true;
+    home = {
+      services.flameshot.enable = true;
 
-      vscode = {
-        enable = true;
+      programs = {
+        google-chrome.enable = true;
 
-        userSettings = {
-          "workbench.colorTheme" = "Catppuccin Mocha";
-          "workbench.iconTheme" = "Catppuccin Mocha";
-          "workbench.tree.indent" = 12;
-          "workbench.editor.highlightModifiedTabs" = true;
+        vscode = {
+          enable = true;
 
-          "window.zoomLevel" = 0;
+          userSettings = {
+            "workbench.colorTheme" = "Catppuccin Mocha";
+            "workbench.iconTheme" = "Catppuccin Mocha";
+            "workbench.tree.indent" = 12;
+            "workbench.editor.highlightModifiedTabs" = true;
 
-          "symbols.hidesExplorerArrows" = false;
+            "window.zoomLevel" = 0;
 
-          "editor.minimap.enabled" = false;
-          "editor.rulers" = [80 120];
+            "symbols.hidesExplorerArrows" = false;
 
-          "workbench.startupEditor" = "newUntitledFile";
-          "workbench.editor.labelFormat" = "short";
+            "editor.minimap.enabled" = false;
+            "editor.rulers" = [80 120];
 
-          "explorer.compactFolders" = false;
+            "workbench.startupEditor" = "newUntitledFile";
+            "workbench.editor.labelFormat" = "short";
 
-          "editor.fontFamily" = "Iosevka Comfy Motion";
-          "editor.fontSize" = 14;
-          "editor.fontLigatures" = true;
+            "explorer.compactFolders" = false;
 
-          "editor.lineHeight" = 1.8;
-          "editor.lineNumbers" = "relative";
+            "editor.fontFamily" = "Iosevka Comfy Motion";
+            "editor.fontSize" = 14;
+            "editor.fontLigatures" = true;
 
-          "editor.tabSize" = 4;
+            "editor.lineHeight" = 1.8;
+            "editor.lineNumbers" = "relative";
 
-          "editor.renderWhitespace" = "trailing";
-          "editor.renderLineHighlight" = "gutter";
+            "editor.tabSize" = 4;
 
-          "editor.semanticHighlighting.enabled" = false;
+            "editor.renderWhitespace" = "trailing";
+            "editor.renderLineHighlight" = "gutter";
 
-          "editor.defaultFormatter" = "esbenp.prettier-vscode";
-          "editor.formatOnSave" = true;
+            "editor.semanticHighlighting.enabled" = false;
 
-          "terminal.integrated.fontFamily" = "Iosevka Comfy Motion";
-          "terminal.integrated.fontSize" = 13;
-          "terminal.integrated.defaultProfile.linux" = "fish";
+            "editor.defaultFormatter" = "esbenp.prettier-vscode";
+            "editor.formatOnSave" = true;
 
-          "files.autoSave" = "afterDelay";
-          "files.autoSaveDelay" = 1000;
+            "terminal.integrated.fontFamily" = "Iosevka Comfy Motion";
+            "terminal.integrated.fontSize" = 13;
+            "terminal.integrated.defaultProfile.linux" = "fish";
 
-          "editor.inlineSuggest.enabled" = true;
+            "files.autoSave" = "afterDelay";
+            "files.autoSaveDelay" = 1000;
 
-          "errorLens.messageMaxChars" = 80;
-          "errorLens.onSaveTimeout" = 2000;
+            "editor.inlineSuggest.enabled" = true;
 
-          "files.eol" = "\n";
+            "errorLens.messageMaxChars" = 80;
+            "errorLens.onSaveTimeout" = 2000;
 
-          "files.exclude" = {
-            "**/.git" = true;
-            "**/.svn" = true;
-            "**/.hg" = true;
-            "**/CVS" = true;
-            "**/.DS_Store" = true;
-            "**/Thumbs.db" = true;
-            "**/node_modules" = true;
-          };
+            "files.eol" = "\n";
 
-          # Nix Language Server
-          "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
+            "files.exclude" = {
+              "**/.git" = true;
+              "**/.svn" = true;
+              "**/.hg" = true;
+              "**/CVS" = true;
+              "**/.DS_Store" = true;
+              "**/Thumbs.db" = true;
+              "**/node_modules" = true;
+            };
 
-          "nix.enableLanguageServer" = true;
-          "nix.serverPath" = "nil";
-          "nix.serverSettings" = {
-            "nil" = {
-              "formatting" = {
-                "command" = [
-                  "alejandra"
-                ];
+            # Nix Language Server
+            "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
+
+            "nix.enableLanguageServer" = true;
+            "nix.serverPath" = "nil";
+            "nix.serverSettings" = {
+              "nil" = {
+                "formatting" = {
+                  "command" = [
+                    "alejandra"
+                  ];
+                };
               };
             };
+
+            # Rust
+            "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+
+            # Shell + Dockerfile + ignore
+            "[shellscript]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+            "[dockerfile]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+            "[ignore]"."editor.defaultFormatter" = "foxundermoon.shell-format";
+            "shellformat.path" = "${pkgs.shfmt}/bin/shfmt";
+
+            # Terraform
+            "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
           };
 
-          # Rust
-          "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+          mutableExtensionsDir = true;
 
-          # Shell + Dockerfile + ignore
-          "[shellscript]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-          "[dockerfile]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-          "[ignore]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-          "shellformat.path" = "${pkgs.shfmt}/bin/shfmt";
-
-          # Terraform
-          "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
-        };
-
-        mutableExtensionsDir = false;
-
-        extensions = (
-          with vscode-extensions.vscode-marketplace; [
-            arrterian.nix-env-selector
+          extensions = with vscode-extensions.vscode-marketplace; [
             catppuccin.catppuccin-vsc
             catppuccin.catppuccin-vsc-icons
             dbaeumer.vscode-eslint
@@ -236,11 +232,13 @@ in {
             foxundermoon.shell-format
             github.copilot
             github.copilot-chat
-            github.vscode-pull-request-github
             github.vscode-github-actions
+            github.vscode-pull-request-github
             hashicorp.terraform
             jnoortheen.nix-ide
             ms-azuretools.vscode-docker
+            ms-dotnettools.csdevkit
+            ms-dotnettools.vscode-dotnet-runtime
             ms-vscode.live-server
             ms-vsliveshare.vsliveshare
             rust-lang.rust-analyzer
@@ -250,50 +248,46 @@ in {
             tomoki1207.pdf
             usernamehw.errorlens
             vue.volar
-          ]
-        );
+          ];
+        };
       };
-    };
 
-    sessionVariables = {
-      GTK_THEME = "Catppuccin-Mocha-Compact-Lavender-Dark";
-    };
+      extraConfig = {
+        gtk = {
+          enable = true;
 
-    home.extraConfig = {
-      gtk = {
-        enable = true;
-
-        font = {
-          name = "Iosevka Comfy Motion";
-          size = 10;
-        };
-
-        theme = {
-          name = "Catppuccin-Mocha-Compact-Lavender-Dark";
-          package = pkgs.catppuccin-gtk.override {
-            accents = ["lavender"];
-            size = "compact";
-            tweaks = ["rimless"];
-            variant = "mocha";
+          font = {
+            name = "Iosevka Comfy Motion";
+            size = 10;
           };
-        };
 
-        iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.catppuccin-papirus-folders;
-        };
+          theme = {
+            name = "Catppuccin-Mocha-Compact-Lavender-Dark";
+            package = pkgs.catppuccin-gtk.override {
+              accents = ["lavender"];
+              size = "compact";
+              tweaks = ["rimless"];
+              variant = "mocha";
+            };
+          };
 
-        cursorTheme = {
-          name = "Catppuccin-Mocha-Dark-Cursors";
-          package = pkgs.catppuccin-cursors.mochaDark;
-        };
+          iconTheme = {
+            name = "Papirus-Dark";
+            package = pkgs.catppuccin-papirus-folders;
+          };
 
-        gtk3.extraConfig = {
-          gtk-application-prefer-dark-theme = true;
-        };
+          cursorTheme = {
+            name = "Catppuccin-Mocha-Dark-Cursors";
+            package = pkgs.catppuccin-cursors.mochaDark;
+          };
 
-        gtk4.extraConfig = {
-          gtk-application-prefer-dark-theme = true;
+          gtk3.extraConfig = {
+            gtk-application-prefer-dark-theme = true;
+          };
+
+          gtk4.extraConfig = {
+            gtk-application-prefer-dark-theme = true;
+          };
         };
       };
     };

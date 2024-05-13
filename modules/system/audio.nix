@@ -8,7 +8,6 @@
       support32Bit = true;
     };
 
-    jack.enable = false;
     pulse.enable = true;
   };
 }

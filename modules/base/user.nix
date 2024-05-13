@@ -53,6 +53,8 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
 
+      backupFileExtension = "bkp";
+
       users.${cfg.name} = let
         extraConfig = builtins.removeAttrs cfg.home.extraConfig ["programs" "services"];
       in
