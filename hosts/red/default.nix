@@ -1,11 +1,4 @@
-{
-  pkgs,
-  inputs,
-  system,
-  ...
-}: let
-  vscode-extensions = inputs.nix-vscode-extensions.extensions.${system};
-in {
+{pkgs, ...}: {
   imports = [./hardware.nix];
 
   # Programs
@@ -47,6 +40,7 @@ in {
     glib
 
     shfmt
+    docker-compose
   ];
 
   # Services
@@ -97,6 +91,7 @@ in {
 
     sessionVariables = {
       GTK_THEME = "Catppuccin-Mocha-Compact-Lavender-Dark";
+      NIXOS_OZONE_WL = "1";
     };
 
     packages = with pkgs; let
@@ -132,127 +127,25 @@ in {
 
         vscode = {
           enable = true;
-
-          userSettings = {
-            "workbench.colorTheme" = "Catppuccin Mocha";
-            "workbench.iconTheme" = "Catppuccin Mocha";
-            "workbench.tree.indent" = 12;
-            "workbench.editor.highlightModifiedTabs" = true;
-
-            "window.zoomLevel" = 0;
-
-            "symbols.hidesExplorerArrows" = false;
-
-            "editor.minimap.enabled" = false;
-            "editor.rulers" = [80 120];
-
-            "workbench.startupEditor" = "newUntitledFile";
-            "workbench.editor.labelFormat" = "short";
-
-            "explorer.compactFolders" = false;
-
-            "editor.fontFamily" = "Iosevka Comfy Motion";
-            "editor.fontSize" = 14;
-            "editor.fontLigatures" = true;
-
-            "editor.lineHeight" = 1.8;
-            "editor.lineNumbers" = "relative";
-
-            "editor.tabSize" = 4;
-
-            "editor.renderWhitespace" = "trailing";
-            "editor.renderLineHighlight" = "gutter";
-
-            "editor.semanticHighlighting.enabled" = false;
-
-            "editor.defaultFormatter" = "esbenp.prettier-vscode";
-            "editor.formatOnSave" = true;
-
-            "terminal.integrated.fontFamily" = "Iosevka Comfy Motion";
-            "terminal.integrated.fontSize" = 13;
-            "terminal.integrated.defaultProfile.linux" = "fish";
-
-            "files.autoSave" = "afterDelay";
-            "files.autoSaveDelay" = 1000;
-
-            "editor.inlineSuggest.enabled" = true;
-
-            "errorLens.messageMaxChars" = 80;
-            "errorLens.onSaveTimeout" = 2000;
-
-            "files.eol" = "\n";
-
-            "files.exclude" = {
-              "**/.git" = true;
-              "**/.svn" = true;
-              "**/.hg" = true;
-              "**/CVS" = true;
-              "**/.DS_Store" = true;
-              "**/Thumbs.db" = true;
-              "**/node_modules" = true;
-            };
-
-            # Nix Language Server
-            "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
-
-            "nix.enableLanguageServer" = true;
-            "nix.serverPath" = "nil";
-            "nix.serverSettings" = {
-              "nil" = {
-                "formatting" = {
-                  "command" = [
-                    "alejandra"
-                  ];
-                };
-              };
-            };
-
-            # Rust
-            "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
-
-            # Shell + Dockerfile + ignore
-            "[shellscript]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-            "[dockerfile]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-            "[ignore]"."editor.defaultFormatter" = "foxundermoon.shell-format";
-            "shellformat.path" = "${pkgs.shfmt}/bin/shfmt";
-
-            # Terraform
-            "[terraform]"."editor.defaultFormatter" = "hashicorp.terraform";
-          };
-
-          mutableExtensionsDir = true;
-
-          extensions = with vscode-extensions.vscode-marketplace; [
-            catppuccin.catppuccin-vsc
-            catppuccin.catppuccin-vsc-icons
-            dbaeumer.vscode-eslint
-            eamodio.gitlens
-            editorconfig.editorconfig
-            esbenp.prettier-vscode
-            foxundermoon.shell-format
-            github.copilot
-            github.copilot-chat
-            github.vscode-github-actions
-            github.vscode-pull-request-github
-            hashicorp.terraform
-            jnoortheen.nix-ide
-            ms-azuretools.vscode-docker
-            ms-dotnettools.csdevkit
-            ms-dotnettools.vscode-dotnet-runtime
-            ms-vscode.live-server
-            ms-vsliveshare.vsliveshare
-            rust-lang.rust-analyzer
-            tamasfe.even-better-toml
-            terrastruct.d2
-            timonwong.shellcheck
-            tomoki1207.pdf
-            usernamehw.errorlens
-            vue.volar
-          ];
+          package = pkgs.vscode.fhs;
         };
       };
 
-      extraConfig = {
+      extraConfig = let
+        cursor = {
+          name = "Catppuccin-Mocha-Dark-Cursors";
+          package = pkgs.catppuccin-cursors.mochaDark;
+        };
+      in {
+        xsession = {
+          enable = true;
+          pointerCursor = {
+            name = cursor.name;
+            package = cursor.package;
+            size = 24;
+          };
+        };
+
         gtk = {
           enable = true;
 
@@ -277,8 +170,8 @@ in {
           };
 
           cursorTheme = {
-            name = "Catppuccin-Mocha-Dark-Cursors";
-            package = pkgs.catppuccin-cursors.mochaDark;
+            name = cursor.name;
+            package = cursor.package;
           };
 
           gtk3.extraConfig = {
