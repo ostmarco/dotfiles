@@ -91,7 +91,6 @@
 
     sessionVariables = {
       GTK_THEME = "Catppuccin-Mocha-Compact-Lavender-Dark";
-      NIXOS_OZONE_WL = "1";
     };
 
     packages = with pkgs; let
@@ -101,7 +100,7 @@
       ]);
     in [
       alejandra
-      d2
+      dbeaver
       devenv
       gcloud
       gh
