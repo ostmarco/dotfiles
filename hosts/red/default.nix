@@ -1,5 +1,7 @@
 {pkgs, ...}: {
-  imports = [./hardware.nix];
+  imports = [
+    ./hardware.nix
+  ];
 
   # Programs
   programs.command-not-found.enable = true;
@@ -58,23 +60,62 @@
 
   services.gnome.gnome-keyring.enable = true;
 
-  modules.programs = {
-    fish.enable = true;
-    git.enable = true;
-    kitty.enable = true;
+  programs = {
+    adb.enable = true;
 
-    helix = {
+    nixvim = {
       enable = true;
-      defaultEditor = true;
 
-      viAlias = true;
-      vimAlias = true;
-      nvimAlias = true;
+      clipboard.providers.wl-copy.enable = true;
+
+      plugins = {
+        bufferline.enable = true;
+        comment.enable = true;
+        lualine.enable = true;
+        oil.enable = true;
+        telescope.enable = true;
+        treesitter.enable = true;
+      };
+
+      colorschemes.catppuccin = {
+        enable = true;
+        settings = {
+          color_overrides.mocha.accent = "#b4befe";
+          flavour = "mocha";
+          styles = {
+            booleans = [
+              "bold"
+              "italic"
+            ];
+            conditionals = [
+              "bold"
+            ];
+          };
+          term_colors = true;
+        };
+      };
     };
   };
 
-  modules.services = {
-    docker.enable = true;
+  modules = {
+    programs = {
+      fish.enable = true;
+      git.enable = true;
+      kitty.enable = true;
+
+      helix = {
+        enable = true;
+        # defaultEditor = true;
+
+        # viAlias = true;
+        # vimAlias = true;
+        # nvimAlias = true;
+      };
+    };
+
+    services = {
+      docker.enable = true;
+    };
   };
 
   # User Account
@@ -82,7 +123,7 @@
     name = "marco";
     description = "Marco Antônio";
 
-    groups = ["adbusers" "docker" "networking" "video" "wheel"];
+    groups = ["adbusers" "docker" "networking" "video" "wheel" "kvm" "dialout"];
 
     shellAliases = {
       ls = "exa";
@@ -100,7 +141,7 @@
       ]);
     in [
       alejandra
-      dbeaver
+      d2
       devenv
       gcloud
       gh
@@ -122,6 +163,11 @@
       services.flameshot.enable = true;
 
       programs = {
+        direnv = {
+          enable = true;
+          nix-direnv.enable = true;
+        };
+
         google-chrome.enable = true;
 
         vscode = {

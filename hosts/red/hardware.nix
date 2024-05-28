@@ -14,8 +14,18 @@
     inputs.nixos-hardware.nixosModules.common-pc-laptop-ssd
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "vmd" "ahci" "nvme" "usb_storage" "sd_mod"];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "thunderbolt"
+    "vmd"
+    "ahci"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+  ];
+
   boot.initrd.kernelModules = [];
+
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 

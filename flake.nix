@@ -11,6 +11,9 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
     apple-fonts.url = "github:ostmarco/apple-fonts.nix";
   };
 
@@ -19,6 +22,7 @@
     nixpkgs,
     flake-utils,
     home-manager,
+    nixvim,
     apple-fonts,
     ...
   }: let
@@ -73,6 +77,7 @@
               }
 
               home-manager.nixosModule
+              nixvim.nixosModules.nixvim
 
               (import path)
             ]
