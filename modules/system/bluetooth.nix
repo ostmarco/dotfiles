@@ -3,6 +3,10 @@
     enable = true;
     powerOnBoot = true;
 
+    package = pkgs.bluez-experimental;
+
+    disabledPlugins = ["sap"];
+
     settings = {
       General = {
         AutoConnect = "true";
@@ -10,6 +14,7 @@
         Experimental = true;
         FastConnectable = "true";
         MultiProfile = "multiple";
+        JustWorksRepairing = "always";
       };
     };
   };

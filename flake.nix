@@ -2,17 +2,20 @@
   description = "Personal NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     flake-utils.url = "github:numtide/flake-utils";
 
-    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixvim.url = "github:nix-community/nixvim";
+    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
+    stylix.url = "github:danth/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     apple-fonts.url = "github:ostmarco/apple-fonts.nix";
   };
@@ -23,6 +26,7 @@
     flake-utils,
     home-manager,
     nixvim,
+    stylix,
     apple-fonts,
     ...
   }: let
@@ -78,6 +82,7 @@
 
               home-manager.nixosModule
               nixvim.nixosModules.nixvim
+              stylix.nixosModules.stylix
 
               (import path)
             ]

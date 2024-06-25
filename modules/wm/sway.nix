@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -47,6 +48,8 @@
         ${gsettings} set org.gnome.desktop.interface icon-theme "$ICON_THEME"
         ${gsettings} set org.gnome.desktop.interface cursor-theme "$CURSOR_THEME"
         ${gsettings} set org.gnome.desktop.interface font-name "$FONT_NAME"
+
+        ${gsettings} set org.gnome.desktop.interface color-scheme prefer-dark
       '';
     };
 in {
@@ -56,13 +59,11 @@ in {
   programs.wshowkeys.enable = true;
 
   user.sessionVariables = {
-    # Session
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "sway";
     XDG_CURRENT_DESKTOP = "sway";
     XDG_CURRENT_SESSION = "sway";
 
-    # Wayland
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_USE_XINPUT2 = "1";
     QT_QPA_PLATFORM = "wayland";
@@ -89,20 +90,11 @@ in {
     programs.rofi = {
       enable = true;
       terminal = terminal;
-      font = "Iosevka Comfy Motion 14";
+      # font = "Iosevka Comfy Motion 14";
       theme = let
         inherit (config.home-manager.users.${config.user.name}.lib.formats.rasi) mkLiteral;
       in {
         "*" = {
-          bg-col = mkLiteral "#24273a";
-          bg-col-light = mkLiteral "#24273a";
-          border-col = mkLiteral "#24273a";
-          selected-col = mkLiteral "#24273a";
-          blue = mkLiteral "#8aadf4";
-          fg-col = mkLiteral "#cad3f5";
-          fg-col2 = mkLiteral "#ed8796";
-          grey = mkLiteral "#6e738d";
-
           width = 600;
         };
 
@@ -114,17 +106,17 @@ in {
         "window" = {
           height = mkLiteral "360px";
           border = mkLiteral "3px";
-          border-color = mkLiteral "@border-col";
-          background-color = mkLiteral "@bg-col";
+          border-color = mkLiteral "@background";
+          background-color = mkLiteral "@background";
         };
 
         "mainbox" = {
-          background-color = mkLiteral "@bg-col";
+          background-color = mkLiteral "@background";
         };
 
         "inputbar" = {
           children = mkLiteral "[prompt,entry]";
-          background-color = mkLiteral "@bg-col";
+          background-color = mkLiteral "@background";
           border-radius = mkLiteral "5px";
           padding = mkLiteral "2px";
         };
@@ -132,7 +124,7 @@ in {
         "prompt" = {
           background-color = mkLiteral "@blue";
           padding = mkLiteral "6px";
-          text-color = mkLiteral "@bg-col";
+          text-color = lib.mkForce (mkLiteral "@selected-active-text");
           border-radius = mkLiteral "3px";
           margin = mkLiteral "20px 0px 0px 20px";
         };
@@ -145,8 +137,8 @@ in {
         "entry" = {
           padding = mkLiteral "6px";
           margin = mkLiteral "20px 0px 0px 10px";
-          text-color = mkLiteral "@fg-col";
-          background-color = mkLiteral "@bg-col";
+          text-color = mkLiteral "@normal-text";
+          background-color = mkLiteral "@background-color";
         };
 
         "listview" = {
@@ -155,13 +147,13 @@ in {
           margin = mkLiteral "10px 0px 0px 20px";
           columns = 2;
           lines = 5;
-          background-color = mkLiteral "@bg-col";
+          background-color = mkLiteral "@background-color";
         };
 
         "element" = {
           padding = mkLiteral "5px";
-          background-color = mkLiteral "@bg-col";
-          text-color = mkLiteral "@fg-col ";
+          background-color = mkLiteral "@background-color";
+          text-color = mkLiteral "@foreground";
         };
 
         "element-icon" = {
@@ -169,8 +161,8 @@ in {
         };
 
         "element selected" = {
-          background-color = mkLiteral "@selected-col";
-          text-color = mkLiteral "@fg-col2";
+          background-color = lib.mkForce (mkLiteral "@blue");
+          text-color = mkLiteral "@lightfg";
         };
 
         "mode-switcher" = {
@@ -179,19 +171,19 @@ in {
 
         "button" = {
           padding = mkLiteral "10px";
-          background-color = mkLiteral "@bg-col-light";
-          text-color = mkLiteral "@grey";
+          background-color = mkLiteral "@lightbg";
+          text-color = mkLiteral "@normal-text";
           vertical-align = mkLiteral "0.5";
           horizontal-align = mkLiteral "0.5";
         };
 
         "button selected" = {
-          background-color = mkLiteral "@bg-col";
-          text-color = mkLiteral "@blue";
+          background-color = lib.mkForce (mkLiteral "@blue");
+          text-color = lib.mkForce (mkLiteral "@selected-active-text");
         };
 
         "message" = {
-          background-color = mkLiteral "@bg-col-light";
+          background-color = mkLiteral "@lightbg";
           margin = mkLiteral "2px";
           padding = mkLiteral "2px";
           border-radius = mkLiteral "5px";
@@ -199,9 +191,9 @@ in {
 
         "textbox" = {
           padding = mkLiteral "6px";
-          margin = mkLiteral "20px 0px 0px 20px";
-          text-color = mkLiteral "@blue";
-          background-color = mkLiteral "@bg-col-light";
+          margin = mkLiteral "20px 20px 0px 20px";
+          text-color = mkLiteral "@base-text";
+          background-color = mkLiteral "@lightbg";
         };
       };
 
@@ -235,36 +227,6 @@ in {
         indicator-radius = 100;
         indicator-idle-visible = true;
         show-failed-attempts = true;
-
-        color = "1e1e2e";
-        bs-hl-color = "f5e0dc";
-        caps-lock-bs-hl-color = "f5e0dc";
-        caps-lock-key-hl-color = "a6e3a1";
-        inside-color = "00000000";
-        inside-clear-color = "00000000";
-        inside-caps-lock-color = "00000000";
-        inside-ver-color = "00000000";
-        inside-wrong-color = "00000000";
-        key-hl-color = "a6e3a1";
-        layout-bg-color = "00000000";
-        layout-border-color = "00000000";
-        layout-text-color = "cdd6f4";
-        line-color = "00000000";
-        line-clear-color = "00000000";
-        line-caps-lock-color = "00000000";
-        line-ver-color = "00000000";
-        line-wrong-color = "00000000";
-        ring-color = "b4befe";
-        ring-clear-color = "f5e0dc";
-        ring-caps-lock-color = "fab387";
-        ring-ver-color = "b4befe";
-        ring-wrong-color = "eba0ac";
-        separator-color = "00000000";
-        text-color = "cdd6f4";
-        text-clear-color = "f5e0dc";
-        text-caps-lock-color = "fab387";
-        text-ver-color = "b4befe";
-        text-wrong-color = "eba0ac";
       };
     };
 
@@ -311,7 +273,7 @@ in {
       enable = true;
       defaultTimeout = 10000;
 
-      extraConfig = ''
+      extraConfig = lib.mkForce ''
         background-color=#1e1e2e
         text-color=#cdd6f4
         border-color=#b4befe
@@ -353,6 +315,9 @@ in {
       };
     in {
       enable = true;
+      package = pkgs.swayfx-unwrapped;
+
+      checkConfig = false;
 
       wrapperFeatures.gtk = true;
 
@@ -362,11 +327,7 @@ in {
 
         startup = [
           {command = "bluetoothctl power on";}
-          {command = "wpaperd";}
         ];
-
-        gaps.inner = 15;
-        window.titlebar = false;
 
         bars = [
           {
@@ -378,14 +339,36 @@ in {
               statusline = theme.text;
               focusedStatusline = theme.text;
               focusedSeparator = theme.overlay0;
-              focusedWorkspace = mkColorSet theme.base theme.base theme.green;
-              activeWorkspace = mkColorSet theme.base theme.base theme.blue;
+              focusedWorkspace = mkColorSet theme.base theme.base theme.lavender;
+              activeWorkspace = mkColorSet theme.base theme.base theme.lavender;
               inactiveWorkspace = mkColorSet theme.base theme.base theme.surface1;
               urgentWorkspace = mkColorSet theme.base theme.base theme.surface1;
               bindingMode = mkColorSet theme.base theme.base theme.surface1;
             };
           }
         ];
+
+        gaps = {
+          inner = 15;
+          smartGaps = true;
+        };
+
+        window = {
+          titlebar = false;
+          commands = let
+            mkCmds = cmds: criteria:
+              builtins.map (cmd: {
+                inherit criteria;
+                command = cmd;
+              })
+              cmds;
+          in
+            (mkCmds [
+              "border pixel 0"
+              "dim_inactive"
+            ] {app_id = "^.*";})
+            ++ [];
+        };
 
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
@@ -403,6 +386,8 @@ in {
             "natural_scroll" = "enabled";
           };
         };
+
+        output."*".bg = "${config.stylix.image} fill";
 
         floating.criteria = [
           {app_id = ".blueman-manager-wrapped";}
@@ -502,6 +487,13 @@ in {
       '';
 
       extraConfig = ''
+        blur enable
+        corner_radius 6
+        shadows enable
+        default_dim_inactive 0.05
+        dim_inactive_colors.unfocused #000000FF
+        dim_inactive_colors.urgent ${theme.lavender}
+
         client.focused           ${theme.lavender} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.lavender}
         client.focused_inactive  ${theme.overlay0} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.overlay0}
         client.unfocused         ${theme.overlay0} ${theme.base} ${theme.text}  ${theme.rosewater} ${theme.overlay0}
@@ -523,10 +515,10 @@ in {
         workspace 8 output $PRIMARY $FALLBACK
         workspace 9 output $PRIMARY $FALLBACK
 
+        for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
+
         exec dbus-sway-environment
         exec configure-gtk
-
-        for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
       '';
 
       swaynag.enable = true;

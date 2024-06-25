@@ -44,4 +44,10 @@ in rec {
       default = [];
       type = types.listOf types.str;
     };
+
+  mkPathOption = description:
+    mkOption {
+      inherit description;
+      type = types.path;
+    };
 }

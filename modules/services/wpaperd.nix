@@ -2,7 +2,7 @@
   user.home = {
     programs = {
       wpaperd = {
-        enable = true;
+        enable = false;
         settings = {
           default = {
             duration = "2m";

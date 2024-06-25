@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   ...
@@ -13,6 +14,7 @@ in {
     enableOnBoot = mkEnableOption "Enables Docker on boot";
 
     rootless = mkBoolOption false "Run Docker without root";
+    compose = mkBoolOption false "Enables Docker Compose";
   };
 
   config = mkMerge [
@@ -28,6 +30,11 @@ in {
         enable = cfg.rootless;
         setSocketVariable = cfg.rootless;
       };
+    })
+    (mkIf (cfg.enable && cfg.compose) {
+      environment.systemPackages = [
+        pkgs.docker-compose
+      ];
     })
   ];
 }
