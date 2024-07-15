@@ -15,6 +15,9 @@ in {
           enable = true;
 
           servers = {
+            clangd.enable = true;
+            cmake.enable = true;
+
             jsonls.enable = true;
             marksman.enable = true;
 

@@ -24,6 +24,7 @@
     jq
     libnotify
     mpv
+    openssl
     p7zip
     ripgrep
     tldr
@@ -119,6 +120,8 @@
       stremio
       tor-browser-bundle-bin
       ventoy-full
+      zed-editor
+      zoom-us
       zx
     ];
 

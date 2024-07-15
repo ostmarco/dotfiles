@@ -24,8 +24,6 @@ in {
         pull.rebase = true;
         push.default = "current";
         rebase.autoStash = true;
-
-        url."git@github.com:".insteadOf = "https://github.com/";
       };
 
       aliases = {

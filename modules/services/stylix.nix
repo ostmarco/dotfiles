@@ -21,11 +21,7 @@ in {
       image = mkForce cfg.wallpaper;
       polarity = "dark";
 
-      cursor = {
-        name = "Catppuccin-Mocha-Dark-Cursors";
-        package = pkgs.catppuccin-cursors.mochaDark;
-        size = 24;
-      };
+      cursor.size = 24;
 
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 

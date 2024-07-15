@@ -29,6 +29,7 @@ in {
         gitsigns.enable = true;
         lualine.enable = true;
         luasnip.enable = true;
+        markdown-preview.enable = true;
         nvim-autopairs.enable = true;
         schemastore.enable = true;
         toggleterm.enable = true;
