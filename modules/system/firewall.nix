@@ -1,11 +1,15 @@
 {...}: {
   networking = {
-    firewall = {
+    firewall = let
+      ports = [5096];
+      onlyTCP = [];
+      onlyUDP = [];
+    in {
       enable = true;
       allowPing = true;
 
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
+      allowedTCPPorts = ports ++ onlyTCP;
+      allowedUDPPorts = ports ++ onlyUDP;
     };
   };
 }

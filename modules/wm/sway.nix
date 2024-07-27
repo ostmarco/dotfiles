@@ -67,7 +67,7 @@ in {
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_USE_XINPUT2 = "1";
     QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    # QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     SDL_VIDEODRIVER = "wayland";
   };
@@ -502,8 +502,8 @@ in {
         client.background        ${theme.base}
 
         # Monitors
-        set $PRIMARY "HDMI-A-1"
-        set $FALLBACK "eDP-1"
+        set $PRIMARY "eDP-1"
+        set $FALLBACK "HDMI-A-1"
 
         workspace 1 output $PRIMARY $FALLBACK
         workspace 2 output $PRIMARY $FALLBACK
@@ -515,7 +515,7 @@ in {
         workspace 8 output $PRIMARY $FALLBACK
         workspace 9 output $PRIMARY $FALLBACK
 
-        for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
+        # for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
 
         exec dbus-sway-environment
         exec configure-gtk

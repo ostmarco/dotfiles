@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  inputs,
+  pkgs,
+  ...
+}: let
   mkCache = url: key: {inherit url key;};
 
   caches = let
@@ -31,6 +35,15 @@ in {
       };
     };
 
-    system.stateVersion = "24.05";
+    system = {
+      stateVersion = "24.05";
+      autoUpgrade = {
+        enable = true;
+        flake = inputs.self.outPath;
+        flags = ["--update-input" "nixpkgs" "-L"];
+        dates = "02:00";
+        randomizedDelaySec = "45min";
+      };
+    };
   };
 }

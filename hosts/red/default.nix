@@ -8,6 +8,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    arion
     bat
     bintools
     bottom
@@ -37,17 +38,17 @@
 
   # Services
   services = {
-    redis.servers."redis" = {
-      enable = true;
-      port = 6379;
-    };
+    gnome.gnome-keyring.enable = true;
 
     mysql = {
       enable = false;
       package = pkgs.mariadb;
     };
 
-    gnome.gnome-keyring.enable = true;
+    redis.servers."redis" = {
+      enable = true;
+      port = 6379;
+    };
   };
 
   programs = {
@@ -67,6 +68,8 @@
         viAlias = true;
         vimAlias = true;
       };
+
+      zed.enable = true;
     };
 
     services = {
@@ -74,6 +77,8 @@
         enable = true;
         compose = true;
       };
+
+      lgtm.enable = true;
 
       stylix = {
         enable = true;
@@ -102,6 +107,7 @@
     in [
       (discord.override {withOpenASAR = true;})
       alejandra
+      anydesk
       d2
       devenv
       dotnet-sdk_8
@@ -111,6 +117,8 @@
       jetbrains.rider
       minikube
       nil
+      webcord
+      nixd
       obsidian
       onlyoffice-bin
       postman
@@ -120,7 +128,6 @@
       stremio
       tor-browser-bundle-bin
       ventoy-full
-      zed-editor
       zoom-us
       zx
     ];
